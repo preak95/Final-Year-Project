@@ -1,0 +1,85 @@
+CREATE TABLE student (
+id int(10) not null auto_increment,
+first_name char(15) not null,
+last_name char(15) not null,
+class int(5),
+PRIMARY KEY(id));
+
+CREATE TABLE personal_detail(
+id int(10) not null auto_increment,
+s_id int(10) not null,
+father_name char(30) not null,
+mother_name char(30) not null,
+addressL1 char(15) not null,
+addressL2 char(15) not null,
+zip int(10) not null,
+PRIMARY KEY(id),
+FOREIGN KEY(s_id) REFERENCES student(id));
+
+CREATE TABLE COURSE(
+course_id int(10) not null auto_increment,
+course_name char(20) not null
+);
+
+
+CREATE TABLE Faculty(
+facID int(10) not null auto_increment,
+first_name char(20) not null,
+last_name char(10) not null,
+salary int(12) not null,
+PRIMARY KEY(facID)); 
+
+ALTER TABLE course_detail
+  ADD CONSTRAINT FOREIGN KEY (facID)
+      REFERENCES faculty_detail (facID);
+
+
+CREATE TABLE Exam_detail(
+sno int(10) not null auto_increment,
+course_id int(10) not null,
+student_id int(10) not null,
+t1Marks int(5) not null default 0,
+t2Marks int(5) not null default 0,
+primary key(sno),
+foreign key(course_id) references course_detail(course_id),
+foreign key(student_id) references student(id));
+
+
+
+-------------INSERTING DATA--------------
+
+INSERT INTO Student_detail (first_name, last_name, class) values('Ritika', 'Diwan', 10),
+('Prithvi', 'Shaw', 10), ('Manpreet', 'Kaur', 9), ('Sushil', 'Mane', 12);
+
+INSERT INTO personal_detail (s_id, father_name, mother_name, addressL1, addressL2, zip) values(2,'Pranav', 'Manisha', 'Diwan House', 'Matunga', 100000),
+(3,'Manav', 'Mansi', 'Wing view', 'Matunga', 100000), (4,'Naveen', 'Neha', 'Sea View', 'Wadala', 100003), (5,'Puneet', 'Aditi', 'Elect House', 'Sion', 100004);
+
+
+
+INSERT INTO exam_detail (course_id, student_id, t1marks, t2marks)
+values(2, 1, 97, 92), (3, 1, 82, 87), (2, 2, 89, 91), (5, 2, 76, 69), (4, 3, 79, 91),
+(2, 3, 86, 85), (2, 4, 76, 66), (4, 4, 92, 96), (3, 5, 91, 88), (5, 5, 68, 72);
+
+
+select student_detail.first_name, exam_detail.t1marks, (select * From course_detail JOIN exam_detail on exam_detail.course_id = course_detail.course_id) as Course
+FROM student_detail JOIN exam_detail ON exam_detail.student_id = student_detail.id AND Course.course_id = exam_detail.course_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
